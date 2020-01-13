@@ -10,13 +10,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.coderpathtodolist.R
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class todoAdapter(val context: Context, val todoList : List<String>) : RecyclerView.Adapter<todoAdapter.todoHolder>() {
+class todoAdapter(val context: Context, val todoList : List<String>, val longClickedListener: onLongClickedListener) : RecyclerView.Adapter<todoAdapter.todoHolder>() {
+
+    interface onLongClickedListener{
+        fun onItemLongClicked(position: Int)
+    }
     inner class todoHolder(itemView:View) : RecyclerView.ViewHolder(itemView){
         val listItem = itemView.findViewById<TextView>(R.id.listItemtextView)
 
 
         fun bindItem(item:String, context: Context){
             listItem.text = item
+            listItem.setOnLongClickListener(View.OnLongClickListener(){
+                longClickedListener.onItemLongClicked(adapterPosition)
+                return@OnLongClickListener true
+
+             }
+            )
 
         }
 
